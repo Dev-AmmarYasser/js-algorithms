@@ -172,25 +172,125 @@ function search(arr, target, leftIndex, rightIndex) {
 
 // Big-O = O(log(n))
 
-function bubbleSort(arr) {
-  let swap;
-  do {
-    swap = false;
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i] > arr[i + 1]) {
-        let temp = arr[i];
-        arr[i] = arr[i + 1];
-        arr[i + 1] = temp;
-        swap = true;
-      }
+// function bubbleSort(arr) {
+//   let swap;
+//   do {
+//     swap = false;
+//     for (let i = 0; i < arr.length; i++) {
+//       if (arr[i] > arr[i + 1]) {
+//         let temp = arr[i];
+//         arr[i] = arr[i + 1];
+//         arr[i + 1] = temp;
+//         swap = true;
+//       }
+//     }
+//   } while (swap == true);
+
+//   return arr;
+// }
+
+// console.log(bubbleSort([1, 2, 3]));
+// console.log(bubbleSort([1, 2, 4, 3]));
+// console.log(bubbleSort([-6, 20, 8, -2, 4]));
+
+// Big-O = O(n^2)
+
+function InsertionSort(arr) {
+  for (let i = 1; i < arr.length; i++) {
+    let key = arr[i];
+    let j = i - 1;
+
+    while (j >= 0 && arr[j] > key) {
+      arr[j + 1] = arr[j];
+      j--;
     }
-  } while (swap == true);
+
+    arr[j + 1] = key;
+  }
 
   return arr;
 }
 
-console.log(bubbleSort([1, 2, 3]));
-console.log(bubbleSort([1, 2, 4, 3]));
-console.log(bubbleSort([-6, 20, 8, -2, 4]));
+// console.log(InsertionSort([2, 1, 3]));
+// console.log(InsertionSort([-6, 20, 8, -2, 4]));
+// console.log(InsertionSort([31, 41, 59, 26, 41, 58]));
+
+function insertionSort(arr) {
+  for (let i = 1; i < arr.length; i++) {
+    let numberToInsert = arr[i];
+    let j = i - 1;
+    while (j >= 0 && arr[j] > numberToInsert) {
+      arr[j + 1] = arr[j];
+      j = j - 1;
+    }
+    arr[j + 1] = numberToInsert;
+  }
+}
+
+let arr = [-6, 20, 8, -2, 4];
+insertionSort(arr);
+
+// console.log(arr);
 
 // Big-O = O(n^2)
+
+// Quick Sort
+
+function quickSort(arr) {
+  if (arr.length <= 1) {
+    return arr;
+  }
+
+  let rightArray = [],
+    leftArray = [];
+
+  let pivotElement = arr[arr.length - 1];
+
+  for (let i = 0; i < arr.length - 1; i++) {
+    if (arr[i] < pivotElement) {
+      leftArray[i] = arr[i];
+    } else {
+      rightArray[i] = arr[i];
+    }
+  }
+
+  return [...quickSort(leftArray), pivotElement, ...quickSort(rightArray)];
+}
+
+// console.log([...[2, 3], ...[3, 4]]);
+// console.log(quickSort([1, 2, 3, -1]));
+// console.log(quickSort(arr));
+
+// Worst Case = O(n^2)
+// AverageCase = O(nlogn)
+
+function mergeSort(arr) {
+  if (arr.length <= 1) {
+    return arr;
+  }
+
+  let middleIndex = Math.floor(arr.length / 2);
+
+  let leftArray = arr.slice(0, middleIndex);
+  let rightArray = arr.slice(middleIndex);
+
+  return merge(mergeSort(leftArray), mergeSort(rightArray));
+}
+
+function merge(leftArray, rightArray) {
+  let sortedArray = [];
+  while (leftArray.length && rightArray.length) {
+    if (leftArray[0] <= rightArray[0]) {
+      sortedArray.push(leftArray.shift());
+    } else {
+      sortedArray.push(rightArray.shift());
+    }
+  }
+
+  return sortedArray.concat(leftArray).concat(rightArray);
+}
+
+console.log(mergeSort([1, 2, 3, 5, 4, 6, 7]));
+console.log(mergeSort(arr));
+
+// Big-O = O(nlogn)
